@@ -1,11 +1,10 @@
 import urllib2
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
-from django.http import HttpResponse
 
 from instagram import InstagramAPI
 
@@ -43,4 +42,8 @@ def complete(request):
 
             photo.image.save('{}.jpg'.format(photo.instagram_id), File(img_temp))
 
-    return HttpResponse('OK')
+    return redirect('choose')
+
+
+def choose(request):
+    return render(request, 'choose.html', {})
