@@ -1,0 +1,3 @@
+vagrant up
+vagrant ssh
+
