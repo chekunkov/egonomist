@@ -130,7 +130,9 @@ def make_face_images(image_name, face):
     image = cv.LoadImage(os.path.join(content_dir, image_name))
     image = image[face.y1:face.y2, face.x1:face.x2]
     face_image_name = image_name + '_face_' + '_'.join(map(str, [face.x1, face.y1, face.x2, face.y2]))
-    cv.SaveImage(faces_dir + face_image_name, image)
+    face_image_path = os.path.join(faces_dir, face_image_name)
+    print face_image_path
+    cv.SaveImage(face_image_path, image)
     return face_image_name
 
 

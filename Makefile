@@ -8,3 +8,6 @@ syncdb:
 
 shell:
 	$(MANAGE) shell
+
+celery_worker:
+	$(MANAGE) celery worker -c 1 -l DEBUG --purge
