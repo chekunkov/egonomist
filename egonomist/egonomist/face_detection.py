@@ -15,6 +15,7 @@ common_dir = '/vagrant/dev'
 content_dir = common_dir + '/content'
 result_dir = common_dir + '/content_result'
 faces_dir = common_dir + '/faces'
+haarcascades_dir = '/usr/local/share/OpenCV/haarcascades/'
 
 
 class Item(object):
@@ -82,7 +83,6 @@ def detect_faces(image_name):
     storage = cv.CreateMemStorage # 0)
     # cv.ClearMemStorage(storage)
     # cv.EqualizeHist(grayscale, grayscale)
-    haarcascades_dir = '/usr/local/share/OpenCV/haarcascades/'
     cascade = cv.Load(os.path.join(
         haarcascades_dir,
         'haarcascade_frontalface_default.xml'
@@ -128,11 +128,13 @@ def detect_faces(image_name):
 
 def make_face_images(image_name, face):
     image = cv.LoadImage(os.path.join(content_dir, image_name))
+    new_image = cv.CreateImage((150, 150), image.depth, image.channels)
     image = image[face.y1:face.y2, face.x1:face.x2]
     face_image_name = image_name + '_face_' + '_'.join(map(str, [face.x1, face.y1, face.x2, face.y2]))
     face_image_path = os.path.join(faces_dir, face_image_name)
     print face_image_path
-    cv.SaveImage(face_image_path, image)
+    cv.Resize(image, new_image, interpolation=cv.CV_INTER_CUBIC)
+    cv.SaveImage(face_image_path, new_image)
     return face_image_name
 
 

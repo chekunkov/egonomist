@@ -12,3 +12,4 @@ def detect_face(images_list):
         for face in valid_faces:
             face_image_name = make_face_images(image, face)
             print face_image_name
+            # TODO: save image somewhere
