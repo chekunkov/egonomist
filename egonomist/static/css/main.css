@@ -1,0 +1,11 @@
+.jumbotron{
+	background: url("../images/mona.png") no-repeat left top;
+	-webkit-background-origin: border-box;
+	background-origin: border-box;
+	height: 768px;
+}
+
+.jumbotron h1,
+.jumbotron p{
+	color: #fff;
+}
