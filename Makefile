@@ -5,3 +5,6 @@ run:
 
 syncdb:
 	$(MANAGE) syncdb --noinput
+
+shell:
+	$(MANAGE) shell
