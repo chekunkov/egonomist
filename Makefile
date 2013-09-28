@@ -1,7 +1,7 @@
 MANAGE=python egonomist/manage.py
 
 run:
-	$(MANAGE) runserver
+	$(MANAGE) runserver 0.0.0.0:8000
 
 syncdb:
 	$(MANAGE) syncdb --noinput
