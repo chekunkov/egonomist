@@ -13,3 +13,16 @@ class Photo(models.Model):
     def delete(self, *args, **kwargs):
         self.image.delete()
         super(Photo, self).delete(*args, **kwargs)
+
+
+class Face(models.Model):
+    user = models.ForeignKey(User, related_name='faces')
+    photo = models.ForeignKey(Photo, related_name='faces')
+    image = models.ImageField(upload_to='faces')
+
+    def __unicode__(self):
+        return self.image
+
+    def delete(self, *args, **kwargs):
+        self.image.delete()
+        super(Face, self).delete(*args, **kwargs)
