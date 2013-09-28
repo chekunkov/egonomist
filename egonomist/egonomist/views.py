@@ -19,7 +19,7 @@ api = InstagramAPI(
 
 def hello(request):
     url = api.get_authorize_login_url(scope=settings.INSTAGRAM_SCOPE)
-    return render(request, 'index.html', {'url': url})
+    return render(request, 'dindex.html', {'url': url})
 
 
 def complete(request):
@@ -46,4 +46,4 @@ def complete(request):
 
 
 def choose(request):
-    return render(request, 'choose.html', {})
+    return render(request, 'dchoose.html', {})
