@@ -1,5 +1,6 @@
 \.idea
 \.git
 \.vagrant
+dev
 *.sublime*
 *.pyc
