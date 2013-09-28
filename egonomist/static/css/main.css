@@ -2,10 +2,30 @@
 	background: url("../images/mona.png") no-repeat left top;
 	-webkit-background-origin: border-box;
 	background-origin: border-box;
-	height: 768px;
+	height: 600px;
+}
+
+html{
+	-webkit-font-smoothing: antialiased;
 }
 
 .jumbotron h1,
 .jumbotron p{
 	color: #fff;
+}
+
+.jumbo-text{
+	margin-top: 300px;
+	width: 350px;
+}
+
+.navbar-brand
+
+.navbar-brand span,
+.navbar-brand{
+	font-size: 30px;
+}
+
+.main-button{
+	margin-top: 320px;
 }
