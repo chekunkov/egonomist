@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load ego_tags %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h1>Select few photos in which you are</h1>
+            </div>
+        </div>
+    </div>
+    {% for row in 3|get_range %}
+        <div class="row top-space">
+        {% for column in 4|get_range %}
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <img src="http://distillery.s3.amazonaws.com/profiles/profile_66_75sq.jpg" >
+                    <div class="caption">
+                        <p>Placeholder for photo description.</p>
+                        <p class="text-center"><button id="test" data-id="1" class="btn btn-sm btn-info select-button">Select</button></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% endfor %}
+    <div class="row top-space bottom-space">
+        <button class="btn btn-primary btn-block">I want results!</button>
+    </div>
+{% endblock content %}
