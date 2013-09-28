@@ -4,3 +4,4 @@
 dev
 *.sublime*
 *.pyc
+*.db
