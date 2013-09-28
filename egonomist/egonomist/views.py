@@ -1,8 +1,14 @@
-# Create your views here.
+import urllib2
+
 from django.shortcuts import render
 from django.conf import settings
+from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
+from django.http import HttpResponse
 
 from instagram import InstagramAPI
+
+from .models import Photo
 
 
 api = InstagramAPI(
@@ -19,3 +25,21 @@ def hello(request):
 def complete(request):
     code = request.GET['code']
     access_token = api.exchange_code_for_access_token(code)
+    auth_api = InstagramAPI(access_token=access_token[0])
+    #Add(verify) user!
+
+    # Move to worker
+    recent_media, _ = auth_api.user_recent_media(count=-1)
+    for media in recent_media:
+        photo, created = Photo.objects.get_or_create(
+            # user = request.user,
+            instagram_id = media.id)
+        if created:
+            img_temp = NamedTemporaryFile(delete=True)
+            img_temp.write(
+                urllib2.urlopen(media.images['standard_resolution'].url).read())
+            img_temp.flush()
+
+            photo.image.save('{}.jpg'.format(photo.instagram_id), File(img_temp))
+
+    return HttpResponse('OK')
