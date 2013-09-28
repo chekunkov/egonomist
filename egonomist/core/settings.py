@@ -1,5 +1,8 @@
 from os import environ
 from os.path import dirname, join
+import djcelery
+
+djcelery.setup_loader()
 
 
 PROJECT_ROOT = dirname(dirname(__file__))
@@ -124,8 +127,9 @@ DJANGO_APPS = (
 )
 
 LOCAL_APPS = (
+    'djcelery',
     'egonomist',
-    )
+)
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 
