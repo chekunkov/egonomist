@@ -5,4 +5,4 @@ dev
 *.sublime*
 *.pyc
 *.db
-*.jpg
+/egonomist/media/photos/*
