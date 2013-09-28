@@ -1,0 +1,10 @@
+Django==1.5.4
+South==0.8.2
+argparse==1.2.1
+django-social-auth==0.7.28
+httplib2==0.8
+oauth2==1.5.211
+python-instagram==0.8.0
+python-openid==2.2.5
+simplejson==3.3.0
+wsgiref==0.1.2
