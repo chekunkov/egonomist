@@ -9,11 +9,11 @@ South==0.8.2
 # sudo ln -sfv /usr/lib/i386-linux-gnu/libjpeg.so /usr/lib
 # sudo ln -sfv /usr/lib/i386-linux-gnu/libfreetype.so /usr/lib
 # sudo ln -sfv /usr/lib/i386-linux-gnu/libz.so /usr/lib
-
-PIL=1.1.7
+# PIL=1.1.7
 python-instagram==0.8.0
 ipdb==0.8
 ipython==1.1.0
 django-celery==3.0.23
 celery==3.0.23
 librabbitmq==1.0.1
+Pillow==2.1.0
