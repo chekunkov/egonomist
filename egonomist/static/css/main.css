@@ -9,6 +9,10 @@ html{
 	-webkit-font-smoothing: antialiased;
 }
 
+.white{
+	color: #fff;
+}
+
 .jumbotron h1,
 .jumbotron p{
 	color: #fff;
