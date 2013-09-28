@@ -11,9 +11,10 @@ from .models import Photo
 
 
 api = InstagramAPI(
-        client_id=settings.INSTAGRAM_CLIENT_ID,
-        client_secret=settings.INSTAGRAM_CLIENT_SECRET,
-        redirect_uri=settings.LOGIN_REDIRECT_URL)
+    client_id=settings.INSTAGRAM_CLIENT_ID,
+    client_secret=settings.INSTAGRAM_CLIENT_SECRET,
+    redirect_uri=settings.LOGIN_REDIRECT_URL
+)
 
 
 def hello(request):
@@ -25,14 +26,17 @@ def complete(request):
     code = request.GET['code']
     access_token = api.exchange_code_for_access_token(code)
     auth_api = InstagramAPI(access_token=access_token[0])
-    user, _ = User.objects.get_or_create(username=access_token[1].get('username'))
+    user, _ = User.objects.get_or_create(
+        username=access_token[1].get('username')
+    )
 
     # Move to worker
     recent_media, _ = auth_api.user_recent_media(count=-1)
     for media in recent_media:
         photo, created = Photo.objects.get_or_create(
-            user = user,
-            instagram_id = media.id)
+            user=user,
+            instagram_id=media.id
+        )
         if created:
             img_temp = NamedTemporaryFile(delete=True)
             with img_temp:
