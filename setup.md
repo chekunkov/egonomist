@@ -1,3 +1,2 @@
 vagrant up
 vagrant ssh
-

@@ -1,4 +1,9 @@
+from os import environ
 from os.path import dirname, join
+import djcelery
+
+djcelery.setup_loader()
+
 
 PROJECT_ROOT = dirname(dirname(__file__))
 
@@ -52,12 +57,12 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = join(PROJECT_ROOT, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -122,8 +127,10 @@ DJANGO_APPS = (
 )
 
 LOCAL_APPS = (
+    'djcelery',
     'egonomist',
-    )
+    'south'
+)
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 
@@ -155,3 +162,23 @@ LOGGING = {
         },
     }
 }
+
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = 'http://localhost:8000/complete/instagram/'
+
+
+INSTAGRAM_CLIENT_ID = environ['INSTAGRAM_CLIENT_ID']
+INSTAGRAM_CLIENT_SECRET = environ['INSTAGRAM_CLIENT_SECRET']
+INSTAGRAM_SCOPE = ['basic']
+
+# celery
+
+BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+BROKER_POOL_LIMIT = None
+
+CELERYD_PREFETCH_MULTIPLIER = 1
+CELERYD_MAX_TASKS_PER_CHILD = 1
+
+CELERY_DISABLE_RATE_LIMITS = True
+CELERYD_FORCE_EXECV = True
+CELERYD_HIJACK_ROOT_LOGGER = False
