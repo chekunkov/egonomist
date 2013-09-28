@@ -1,3 +1,4 @@
+from os import environ
 from os.path import dirname, join
 
 PROJECT_ROOT = dirname(dirname(__file__))
@@ -155,3 +156,10 @@ LOGGING = {
         },
     }
 }
+
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+
+
+INSTAGRAM_CLIENT_ID = environ['INSTAGRAM_CLIENT_ID']
+INSTAGRAM_CLIENT_SECRET = environ['INSTAGRAM_CLIENT_SECRET']
