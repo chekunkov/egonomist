@@ -11,32 +11,36 @@
     <div class="row top-space">
         <div class="col-lg-12">
             <div class="progress progress-striped">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 30%">
-                    <span class="sr-only">30% Complete (success)</span>
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{result}}" aria-valuemin="0" aria-valuemax="100" style="width: {{result}}%">
+                    <span class="sr-only">{{result}}% Complete (success)</span>
                 </div>
             </div>
-            <h1>Your are an altruist! Good :-) 30/100</h1>
-            <div class="text-center">
-                <img src="../static/images/altruist.jpg" alt="">
-            </div>
-            <div class="progress progress-striped">
-                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                    <span class="sr-only">60% Complete (warning)</span>
+            {% if result <= 30 %}
+                <h1>Your are an altruist! Good :-) {{result}}/100</h1>
+                <div class="text-center">
+                    <img src="../static/images/altruist.jpg" alt="">
                 </div>
-            </div>
-            <h1>Your are typical egoist! :-| 60/100</h1>
-            <div class="text-center">
-                <img src="../static/images/egoist.jpg" alt="">
-            </div>
-            <div class="progress progress-striped">
-                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                    <span class="sr-only">80% Complete (danger)</span>
+                <div class="progress progress-striped">
+                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{result}}" aria-valuemin="0" aria-valuemax="100" style="width: {{result}}%">
+                        <span class="sr-only">{{result}}% Complete (warning)</span>
+                    </div>
                 </div>
-            </div>
-            <h1>Your are totally egoist! Do at least one photo of a cat!  80/100</h1>
-            <div class="text-center">
-                <img src="../static/images/narciss.jpg" alt="">
-            </div>
+            {% elif result > 30 and result <= 60 %}
+                <h1>Your are typical egoist! :-| {{result}}/100</h1>
+                <div class="text-center">
+                    <img src="../static/images/egoist.jpg" alt="">
+                </div>
+                <div class="progress progress-striped">
+                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{result}}" aria-valuemin="0" aria-valuemax="100" style="width: {{result}}%">
+                        <span class="sr-only">{{result}}% Complete (danger)</span>
+                    </div>
+                </div>
+            {% else %}
+                <h1>Your are narcissus! Do at least one photo of a cat!  {{result}}/100</h1>
+                <div class="text-center">
+                    <img src="../static/images/narciss.jpg" alt="">
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock content %}
