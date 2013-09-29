@@ -19,10 +19,8 @@ haarcascades_dir = '/usr/local/share/OpenCV/haarcascades/'
 
 
 class Item(object):
-    u""""""
 
     def __init__(self, coordinates):
-        u"""Constructor for Item"""
 
         if not isinstance(coordinates, tuple):
             raise TypeError("Coordinates should be tuple")
@@ -34,8 +32,6 @@ class Item(object):
         self.y1 = self.y
         self.x2 = self.x + self.h
         self.y2 = self.y + self.w
-
-        # TODO: confidence?
 
     def __contains__(self, item):
         if not isinstance(item, Item):
@@ -73,13 +69,13 @@ class Face(Item):
         return False
 
 
-def detect_faces(image_name):
+def detect_faces(image_path):
     """Converts an image to grayscale and prints the locations of any
        faces found"""
     # grayscale = cv.CreateImage((image.width, image.height), 8, 1)
     # cv.CvtColor(image, grayscale, cv.CV_BGR2GRAY)
 
-    image = cv.LoadImage(os.path.join(content_dir, image_name), 0)
+    image = cv.LoadImage(image_path, 0)
     storage = cv.CreateMemStorage # 0)
     # cv.ClearMemStorage(storage)
     # cv.EqualizeHist(grayscale, grayscale)
@@ -126,16 +122,22 @@ def detect_faces(image_name):
     return valid_faces
 
 
-def make_face_images(image_name, face):
-    image = cv.LoadImage(os.path.join(content_dir, image_name))
+def make_face_images(image_path, face):
+    image = cv.LoadImage(image_path)
     new_image = cv.CreateImage((150, 150), image.depth, image.channels)
     image = image[face.y1:face.y2, face.x1:face.x2]
-    face_image_name = image_name + '_face_' + '_'.join(map(str, [face.x1, face.y1, face.x2, face.y2]))
-    face_image_path = os.path.join(faces_dir, face_image_name)
+    image_path, dot, ext = image_path.rpartition('.')
+    image_name = image_path.rsplit('/')[-1]
+    face_image_name = u'{}_face_{}.{}'.format(
+        image_name,
+        '_'.join(map(str, [face.x1, face.y1, face.x2, face.y2])),
+        ext
+    )
+    face_image_path = os.path.join(settings.FACES_ROOT, face_image_name)
     print face_image_path
     cv.Resize(image, new_image, interpolation=cv.CV_INTER_CUBIC)
     cv.SaveImage(face_image_path, new_image)
-    return face_image_name
+    return face_image_path
 
 
 if __name__ == "__main__":
