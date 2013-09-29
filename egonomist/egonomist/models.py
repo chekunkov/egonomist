@@ -5,6 +5,7 @@ class PhotoQuerySet(models.query.QuerySet):
     def delete(self):
         for photo in self:
             photo.image.delete()
+        super(self, PhotoQuerySet).delete()
 
 
 class PhotoManager(models.Manager):
