@@ -59,10 +59,7 @@ def complete(request):
 
                 photo.image.save('{}.jpg'.format(photo.instagram_id), File(img_temp))
 
-    for face in Face.objects.filter(user=user):
-        face.delete()
-
-    for photo in user.photos.all():
+    for photo in user.photos.exclude(faces__user=user):
         image_path = photo.image.path
         valid_faces = detect_faces(image_path)
         for face in valid_faces:
