@@ -127,6 +127,7 @@ DJANGO_APPS = (
 
 LOCAL_APPS = (
     'djcelery',
+    'egonomist',
     #'south'
 )
 
