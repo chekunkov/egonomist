@@ -19,19 +19,23 @@ def train_and_compute_score(all_images, selected_images):
     )
 
     confidences = []
+    counter = 0
     for image in all_images:
-        if image in selected_images:
-            continue
+        #if image in selected_images:
+        #    continue
         im = cv2.imread(image, cv2.IMREAD_GRAYSCALE)
         im = numpy.asarray(im, dtype=numpy.uint8)
         _, confidence = model.predict(numpy.asarray(im))
+        if confidence < 5000:
+            counter += 1
         print _, confidence, image
         confidences.append(confidence)
 
-    face_score = float(sum(confidences))/len(confidences)
+
+    #face_score = float(sum(confidences))/len(confidences)
     #from math import sqrt
     #face_score = 1.0 - sqrt(float(face_score) / (len(selected_images) * num_eigens)) / 255.0
-    return face_score
+    return counter
 
 if __name__ == '__main__':
 

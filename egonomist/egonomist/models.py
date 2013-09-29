@@ -31,7 +31,7 @@ class Photo(models.Model):
 class Face(models.Model):
     user = models.ForeignKey(User, related_name='faces')
     photo = models.ForeignKey(Photo, related_name='faces')
-    image = models.ImageField(upload_to=settings.FACES_ROOT)
+    image = models.ImageField(upload_to='faces')
 
     def __unicode__(self):
         return self.image.path

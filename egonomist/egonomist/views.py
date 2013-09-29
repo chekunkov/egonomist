@@ -4,8 +4,11 @@ from django.contrib.auth.models import User
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 
+from django.contrib.auth import login, authenticate
+
 import requests
 from instagram import InstagramAPI
+from face_detection import make_face_images, detect_faces
 
 from .models import Photo, Face
 
@@ -29,6 +32,10 @@ def complete(request):
     user, _ = User.objects.get_or_create(
         username=access_token[1].get('username')
     )
+    # Don't repeat this!
+    user.backend = 'django.contrib.auth.backends.ModelBackend'
+    #authenticate(username=user.username, password=user.password)
+    login(request, user)
 
     # Move to worker
     recent_media, _ = auth_api.user_recent_media(count=-1)
@@ -49,9 +56,26 @@ def complete(request):
 
                 photo.image.save('{}.jpg'.format(photo.instagram_id), File(img_temp))
 
+    for photo in user.photos.all():
+        image_path = photo.image.path
+        valid_faces = detect_faces(image_path)
+        for face in valid_faces:
+            face_image_path = make_face_images(image_path, face)
+            with open(face_image_path) as f:
+                Face.objects.get_or_create(
+                    user=user,
+                    photo=photo,
+                    image=File(f)
+                )
     return redirect('choose')
 
 
 def choose(request):
     faces = Face.objects.filter(user=request.user)[:8]
-    return render(request, 'dchoose.html', {'faces':[faces[:4], faces[4:]]})
+    #import ipdb; ipdb.set_trace()
+    return render(request, 'dchoose.html', {
+        'faces': [
+            faces[:4],
+            faces[4:]
+        ]
+    })
