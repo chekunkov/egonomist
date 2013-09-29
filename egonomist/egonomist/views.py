@@ -7,7 +7,7 @@ from django.core.files.temp import NamedTemporaryFile
 import requests
 from instagram import InstagramAPI
 
-from .models import Photo
+from .models import Photo, Face
 
 
 api = InstagramAPI(
@@ -53,4 +53,5 @@ def complete(request):
 
 
 def choose(request):
-    return render(request, 'dchoose.html', {})
+    faces = Face.objects.filter(user=request.user)[:8]
+    return render(request, 'dchoose.html', {'faces':[faces[:4], faces[4:]]})
