@@ -1,11 +1,10 @@
-import urllib2
-
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 
+import requests
 from instagram import InstagramAPI
 
 from .models import Photo
@@ -40,16 +39,16 @@ def complete(request):
         )
         if created:
             img_temp = NamedTemporaryFile(delete=True)
-            img_temp.write(
-                urllib2.urlopen(
-                    media.images['standard_resolution'].url
-                ).read()
-            )
-            img_temp.flush()
-            photo.image.save(
-                '{}.jpg'.format(photo.instagram_id),
-                File(img_temp)
-            )
+            with img_temp:
+                request = requests.get(media.images['standard_resolution'].url, stream=True)
+                for block in request.iter_content(1024):
+                    if not block:
+                        break
+                    img_temp.write(block)
+                img_temp.flush()
+
+                photo.image.save('{}.jpg'.format(photo.instagram_id), File(img_temp))
+
     return redirect('choose')
 
 
