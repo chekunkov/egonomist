@@ -134,7 +134,6 @@ def make_face_images(image_path, face):
         ext
     )
     face_image_path = os.path.join(settings.FACES_ROOT, face_image_name)
-    print face_image_path
     cv.Resize(image, new_image, interpolation=cv.CV_INTER_CUBIC)
     cv.SaveImage(face_image_path, new_image)
     return face_image_path
@@ -144,8 +143,6 @@ if __name__ == "__main__":
     if not os.path.exists(result_dir):
         os.mkdir(result_dir)
     image_name = sys.argv[1].split('/')[-1]
-    print image_name
     valid_faces = detect_faces(image_name)
     for face in valid_faces:
         face_image_name = make_face_images(image_name, face)
-        print face_image_name

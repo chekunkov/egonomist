@@ -59,26 +59,23 @@ def complete(request):
 
                 photo.image.save('{}.jpg'.format(photo.instagram_id), File(img_temp))
 
-    for face in Face.objects.filter(user=user):
-        face.delete()
-
-    for photo in user.photos.all():
+    for photo in user.photos.exclude(faces__user=user):
         image_path = photo.image.path
         valid_faces = detect_faces(image_path)
         for face in valid_faces:
             face_image_path = make_face_images(image_path, face)
-            with open(face_image_path) as f:
-                Face.objects.get_or_create(
+            with open(face_image_path):
+                face = Face.objects.create(
                     user=user,
                     photo=photo,
-                    image=File(f)
                 )
+                face.image.name = face_image_path
+                face.save()
     return redirect('choose')
 
 
 def choose(request):
     faces = Face.objects.filter(user=request.user)[:8]
-    #import ipdb; ipdb.set_trace()
     len_faces = len(faces)
     if len_faces < 8:
         return HttpResponseRedirect('/result?result={}'.format(len_faces))
