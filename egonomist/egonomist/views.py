@@ -3,14 +3,17 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
+from django.http import HttpResponse
 
 from django.contrib.auth import login, authenticate
 
 import requests
 from instagram import InstagramAPI
 from face_detection import make_face_images, detect_faces
+from face_recognition import train_and_compute_score
 
 from .models import Photo, Face
+import json
 
 
 api = InstagramAPI(
@@ -78,4 +81,23 @@ def choose(request):
             faces[:4],
             faces[4:]
         ]
+    })
+
+
+def compute_result(request):
+    ids = request.GET.getlist('ids[]')
+    selected_faces = Face.objects.filter(id__in=ids)
+    selected_images = [face.image.path for face in selected_faces]
+    all_images = [
+        face.image.path for face
+        in Face.objects.all()
+    ]
+    result = train_and_compute_score(all_images, selected_images)
+    return HttpResponse(json.dumps(result), content_type='application/json')
+
+
+def result(request):
+    result = request.GET['result']
+    return render(request, 'dresult.html', {
+        'result': result
     })

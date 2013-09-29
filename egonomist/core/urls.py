@@ -10,5 +10,7 @@ urlpatterns = patterns('',
     url(r'^$', 'egonomist.views.hello', name='home'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^complete/instagram/', 'egonomist.views.complete', name='complete'),
-    url(r'^choose/', 'egonomist.views.choose', name='choose')
+    url(r'^choose/', 'egonomist.views.choose', name='choose'),
+    url(r'^compute/', 'egonomist.views.compute_result', name='compute'),
+    url(r'^result/', 'egonomist.views.result', name='result')
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
