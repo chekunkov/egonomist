@@ -5,7 +5,7 @@ from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 from django.http import HttpResponse, HttpResponseRedirect
 
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login
 
 import requests
 from instagram import InstagramAPI
@@ -41,7 +41,7 @@ def complete(request):
     login(request, user)
 
     # Move to worker
-    recent_media, _ = auth_api.user_recent_media(count=-1)
+    recent_media, _ = auth_api.user_recent_media(count=0)
     for media in recent_media:
         photo, created = Photo.objects.get_or_create(
             user=user,
@@ -50,27 +50,30 @@ def complete(request):
         if created:
             img_temp = NamedTemporaryFile(delete=True)
             with img_temp:
-                request = requests.get(media.images['standard_resolution'].url, stream=True)
+                request = requests.get(
+                    media.images['standard_resolution'].url,
+                    stream=True
+                )
                 for block in request.iter_content(1024):
                     if not block:
                         break
                     img_temp.write(block)
                 img_temp.flush()
-
-                photo.image.save('{}.jpg'.format(photo.instagram_id), File(img_temp))
-
-    for photo in user.photos.exclude(faces__user=user):
-        image_path = photo.image.path
-        valid_faces = detect_faces(image_path)
-        for face in valid_faces:
-            face_image_path = make_face_images(image_path, face)
-            with open(face_image_path):
-                face = Face.objects.create(
-                    user=user,
-                    photo=photo,
+                photo.image.save(
+                    '{}.jpg'.format(photo.instagram_id),
+                    File(img_temp)
                 )
-                face.image.name = face_image_path
-                face.save()
+            image_path = photo.image.path
+            valid_faces = detect_faces(image_path)
+            for face in valid_faces:
+                face_image_path = make_face_images(image_path, face)
+                with open(face_image_path):
+                    face = Face.objects.create(
+                        user=user,
+                        photo=photo,
+                    )
+                    face.image.name = face_image_path
+                    face.save()
     return redirect('choose')
 
 
@@ -97,8 +100,11 @@ def compute_result(request):
         face.image.path for face
         in Face.objects.filter(user=user)
     ]
-    result = train_and_compute_score(all_images, selected_images)
-    result = round(100 * float(result) / len(all_images))
+    recognized_faces_count = train_and_compute_score(
+        all_images,
+        selected_images
+    )
+    result = round(100 * float(recognized_faces_count) / len(all_images))
     return HttpResponse(json.dumps(result), content_type='application/json')
 
 
