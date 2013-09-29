@@ -13,7 +13,7 @@
         {% for face in row %}
             <div class="col-sm-6 col-md-3">
                 <div class="thumbnail">
-                    <img src="{{face.image.url}}" >
+                    <img src="{{MEDIA_URL}}{{face.relpath}}" >
                     <div class="caption">
                         <p class="text-center"><button id="test" data-id="{{face.id}}" class="btn btn-sm btn-info select-button">Select</button></p>
                     </div>
