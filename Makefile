@@ -1,4 +1,4 @@
-MANAGE=python egonomist/manage.py
+MANAGE=~/.venv/bin/python /vagrant/egonomist/manage.py
 
 run:
 	$(MANAGE) runserver 0.0.0.0:8000

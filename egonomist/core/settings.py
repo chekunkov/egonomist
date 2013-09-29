@@ -1,4 +1,3 @@
-from os import environ
 from os.path import dirname, join
 import djcelery
 
@@ -128,8 +127,7 @@ DJANGO_APPS = (
 
 LOCAL_APPS = (
     'djcelery',
-    'egonomist',
-    'south'
+    #'south'
 )
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
@@ -166,9 +164,8 @@ LOGGING = {
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = 'http://localhost:8000/complete/instagram/'
 
-
-INSTAGRAM_CLIENT_ID = environ['INSTAGRAM_CLIENT_ID']
-INSTAGRAM_CLIENT_SECRET = environ['INSTAGRAM_CLIENT_SECRET']
+INSTAGRAM_CLIENT_ID = 'c08c78162cce4141bbc13b8270f06d69'
+INSTAGRAM_CLIENT_SECRET = '0d3ff15d56e44ae987eac88df78aff19'
 INSTAGRAM_SCOPE = ['basic']
 
 # celery
