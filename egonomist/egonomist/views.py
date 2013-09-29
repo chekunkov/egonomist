@@ -67,18 +67,18 @@ def complete(request):
         valid_faces = detect_faces(image_path)
         for face in valid_faces:
             face_image_path = make_face_images(image_path, face)
-            with open(face_image_path) as f:
-                Face.objects.get_or_create(
+            with open(face_image_path):
+                face = Face.objects.create(
                     user=user,
                     photo=photo,
-                    image=File(f)
                 )
+                face.image.name = face_image_path
+                face.save()
     return redirect('choose')
 
 
 def choose(request):
     faces = Face.objects.filter(user=request.user)[:8]
-    #import ipdb; ipdb.set_trace()
     len_faces = len(faces)
     if len_faces < 8:
         return HttpResponseRedirect('/result?result={}'.format(len_faces))
