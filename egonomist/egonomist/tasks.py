@@ -8,7 +8,7 @@ from face_recognition import train_and_compute_score
 
 
 @task(ignore_results=True)
-def detect_faces(username):
+def detect_faces_for_user(username):
     user = User.objects.get(username=username)
     for photo in user.photos.all():
         image_path = photo.image.path

@@ -127,9 +127,10 @@ def make_face_images(image_path, face):
     new_image = cv.CreateImage((150, 150), image.depth, image.channels)
     image = image[face.y1:face.y2, face.x1:face.x2]
     image_path, dot, ext = image_path.rpartition('.')
-    face_image_name = u'{}_face_{}'.format(
+    face_image_name = u'{}_face_{}.{}'.format(
         image_path,
-        '_'.join(map(str, [face.x1, face.y1, face.x2, face.y2]))
+        '_'.join(map(str, [face.x1, face.y1, face.x2, face.y2])),
+        ext
     )
     face_image_path = os.path.join(faces_dir, face_image_name)
     print face_image_path
