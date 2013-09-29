@@ -59,6 +59,9 @@ def complete(request):
 
                 photo.image.save('{}.jpg'.format(photo.instagram_id), File(img_temp))
 
+    for face in Face.objects.filter(user=user):
+        face.delete()
+
     for photo in user.photos.all():
         image_path = photo.image.path
         valid_faces = detect_faces(image_path)
@@ -89,13 +92,16 @@ def choose(request):
 
 def compute_result(request):
     ids = request.GET.getlist('ids[]')
-    selected_faces = Face.objects.filter(id__in=ids)
+    user = request.user
+
+    selected_faces = Face.objects.filter(user=user, id__in=ids)
     selected_images = [face.image.path for face in selected_faces]
     all_images = [
         face.image.path for face
-        in Face.objects.all()
+        in Face.objects.filter(user=user)
     ]
     result = train_and_compute_score(all_images, selected_images)
+    result = round(100 * float(result) / len(all_images))
     return HttpResponse(json.dumps(result), content_type='application/json')
 
 
