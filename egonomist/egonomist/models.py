@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -5,7 +6,7 @@ from django.contrib.auth.models import User
 class Photo(models.Model):
     user = models.ForeignKey(User, related_name='photos')
     instagram_id = models.CharField(max_length=32)
-    image = models.ImageField(upload_to='photos')
+    image = models.ImageField(upload_to=settings.PHOTOS_ROOT)
 
     def __unicode__(self):
         return self.instagram_id
@@ -18,10 +19,10 @@ class Photo(models.Model):
 class Face(models.Model):
     user = models.ForeignKey(User, related_name='faces')
     photo = models.ForeignKey(Photo, related_name='faces')
-    image = models.ImageField(upload_to='faces')
+    image = models.ImageField(upload_to=settings.FACES_ROOT)
 
     def __unicode__(self):
-        return self.image
+        return self.image.path
 
     def delete(self, *args, **kwargs):
         self.image.delete()

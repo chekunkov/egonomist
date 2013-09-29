@@ -8,7 +8,7 @@ import sys
 import os
 import cv
 
-# from django.conf import settings
+from django.conf import settings
 
 
 common_dir = '/vagrant/dev'
@@ -127,12 +127,13 @@ def make_face_images(image_path, face):
     new_image = cv.CreateImage((150, 150), image.depth, image.channels)
     image = image[face.y1:face.y2, face.x1:face.x2]
     image_path, dot, ext = image_path.rpartition('.')
+    image_name = image_path.rsplit('/')[-1]
     face_image_name = u'{}_face_{}.{}'.format(
-        image_path,
+        image_name,
         '_'.join(map(str, [face.x1, face.y1, face.x2, face.y2])),
         ext
     )
-    face_image_path = os.path.join(faces_dir, face_image_name)
+    face_image_path = os.path.join(settings.FACES_ROOT, face_image_name)
     print face_image_path
     cv.Resize(image, new_image, interpolation=cv.CV_INTER_CUBIC)
     cv.SaveImage(face_image_path, new_image)
