@@ -25,7 +25,7 @@ api = InstagramAPI(
 
 def hello(request):
     url = api.get_authorize_login_url(scope=settings.INSTAGRAM_SCOPE)
-    return render(request, 'dindex.html', {'url': url})
+    return render(request, 'index.html', {'url': url})
 
 
 def complete(request):
@@ -82,7 +82,7 @@ def choose(request):
     len_faces = len(faces)
     if len_faces < 8:
         return HttpResponseRedirect('/result?result={}'.format(len_faces))
-    return render(request, 'dchoose.html', {
+    return render(request, 'choose.html', {
         'faces': [
             faces[:4],
             faces[4:]
@@ -107,6 +107,6 @@ def compute_result(request):
 
 def result(request):
     result = request.GET['result']
-    return render(request, 'dresult.html', {
+    return render(request, 'result.html', {
         'result': int(result)
     })
