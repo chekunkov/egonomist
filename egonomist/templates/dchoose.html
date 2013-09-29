@@ -9,15 +9,14 @@
             </div>
         </div>
     </div>
-    {% for row in 3|get_range %}
+    {% for row in faces %}
         <div class="row top-space">
-        {% for column in 4|get_range %}
+        {% for face in row %}
             <div class="col-sm-6 col-md-3">
                 <div class="thumbnail">
-                    <img src="http://distillery.s3.amazonaws.com/profiles/profile_66_75sq.jpg" >
+                    <img src="{{face.image.url}}" >
                     <div class="caption">
-                        <p>Placeholder for photo description.</p>
-                        <p class="text-center"><button id="test" data-id="1" class="btn btn-sm btn-info select-button">Select</button></p>
+                        <p class="text-center"><button id="test" data-id="{{face.id}}" class="btn btn-sm btn-info select-button">Select</button></p>
                     </div>
                 </div>
             </div>
