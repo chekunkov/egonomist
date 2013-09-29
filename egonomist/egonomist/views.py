@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from django.contrib.auth import login, authenticate
 
@@ -76,6 +76,9 @@ def complete(request):
 def choose(request):
     faces = Face.objects.filter(user=request.user)[:8]
     #import ipdb; ipdb.set_trace()
+    len_faces = len(faces)
+    if len_faces < 8:
+        return HttpResponseRedirect('/result?result={}'.format(len_faces))
     return render(request, 'dchoose.html', {
         'faces': [
             faces[:4],
@@ -99,5 +102,5 @@ def compute_result(request):
 def result(request):
     result = request.GET['result']
     return render(request, 'dresult.html', {
-        'result': result
+        'result': int(result)
     })

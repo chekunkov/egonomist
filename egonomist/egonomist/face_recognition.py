@@ -26,7 +26,7 @@ def train_and_compute_score(all_images, selected_images):
         im = cv2.imread(image, cv2.IMREAD_GRAYSCALE)
         im = numpy.asarray(im, dtype=numpy.uint8)
         _, confidence = model.predict(numpy.asarray(im))
-        if confidence < 2000:
+        if confidence < 5000:
             counter += 1
         print _, confidence, image
         confidences.append(confidence)
