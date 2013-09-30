@@ -1,6 +1,11 @@
+import os
+
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+
 
 class PhotoQuerySet(models.query.QuerySet):
     def delete(self):
@@ -39,3 +44,7 @@ class Face(models.Model):
     def delete(self, *args, **kwargs):
         self.image.delete()
         super(Face, self).delete(*args, **kwargs)
+
+    @property
+    def relpath(self):
+        return os.path.relpath(self.image.path, settings.MEDIA_ROOT)
