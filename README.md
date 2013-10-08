@@ -8,10 +8,10 @@ P.S. It works slowly (downloading your instagram photos) :-)
 
 # Installation
 
-vagrant up
-vagrant ssh
-cd /vagrant
-make run
+1. ```vagrant up```
+2. ```vagrant ssh```
+3. ```cd /vagrant```
+4. ```make run```
 
 Go to http://localhost:8000 and enjoy!
 
