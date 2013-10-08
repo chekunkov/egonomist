@@ -11,6 +11,12 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--memory", "1024", "--cpus", "2"]
   end
   config.vm.provision :chef_solo do |chef|
+
+    # workaround for changes in Vagrant >= 1.2.4 which cause an exception
+    # Chef::Exceptions::EnclosingDirectoryDoesNotExist
+    chef.provisioning_path = "/tmp/vagrant-chef-solo"
+    chef.file_cache_path = chef.provisioning_path
+
     chef.cookbooks_path = "chef/cookbooks"
     chef.roles_path = "chef/roles"
     chef.add_role "web"
