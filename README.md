@@ -13,7 +13,7 @@ P.S. It works slowly (downloading your instagram photos) :-)
 3. ```cd /vagrant```
 4. ```make run```
 
-Go to http://localhost:8000 and enjoy!
+Go to ```http://localhost:8000``` and enjoy!
 
 Warning! It takes more than 20 minutes to compile and install OpenCV,
 so complite provisioning could take around 30 minutes.
